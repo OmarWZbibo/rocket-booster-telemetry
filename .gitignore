@@ -1,0 +1,25 @@
+# Private files - never upload
+**/Resources/TelemetryConfig.txt
+**/Resources/TelemetryConfig.txt.meta
+docs/PROJECT_LOG.md
+cors.json
+
+# Unity temporary and build folders
+Rocket Boost/[Ll]ibrary/
+Rocket Boost/[Tt]emp/
+Rocket Boost/[Oo]bj/
+Rocket Boost/[Ll]ogs/
+Rocket Boost/[Uu]ser[Ss]ettings/
+Rocket Boost/BuildsWeb/
+Rocket Boost/.vscode/
+Rocket Boost/*.csproj
+Rocket Boost/*.sln
+
+# Course sound effects (not ours to share)
+Rocket Boost/10_RB_UC3D4 Rocket Boost SFX/
+
+# Other generated files
+aws/lambda/function.zip
+__pycache__/
+Thumbs.db
+desktop.ini
