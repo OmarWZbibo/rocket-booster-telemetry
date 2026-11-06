@@ -1,0 +1,6 @@
+{
+  "AllowOrigins": ["https://html-classic.itch.zone"],
+  "AllowMethods": ["POST", "OPTIONS"],
+  "AllowHeaders": ["content-type"],
+  "MaxAge": 300
+}
