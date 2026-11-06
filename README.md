@@ -102,6 +102,10 @@ The dashboard answers the questions a game studio would ask about its levels and
 
 ---
 
+**What went wrong along the way:** see [Lessons learned](docs/LESSONS_LEARNED.md) for the problems I hit and how I fixed them.
+
+---
+
 ## Known limitations and next steps
 
 - **One small JSON file per event.** Fine at this scale, but at volume this becomes the *small-files problem*. Next step: convert to Parquet with a Glue job or Athena CTAS.
@@ -117,10 +121,12 @@ The dashboard answers the questions a game studio would ask about its levels and
 rocket-booster-telemetry/
 ├── Rocket Boost/      Unity 6 project (C# scripts in Assets/Scripts)
 ├── aws/lambda/        Ingestion Lambda (Python)
+├── aws/iam/           Least-privilege policy for the Lambda role
+├── aws/api-gateway/   Throttling and CORS settings
 ├── simulator/         Synthetic player simulator (Python, standard library only)
 ├── analytics/         Athena partition projection + view definitions (SQL)
 ├── dashboard/         Power BI report (.pbix)
-└── docs/Images/       Dashboard screenshots
+└── docs/             Lessons learned + dashboard screenshots (docs/Images)
 ```
 
 **Main Unity scripts:** `TelemetryManager.cs` (builds and sends events, survives scene reloads), `CollisionHandler.cs` (crash, completion and fuel events), `FuelTank.cs` (fuel system), `MainMenu.cs` (menu and data notice).
@@ -129,7 +135,7 @@ rocket-booster-telemetry/
 
 ## Running it yourself
 
-1. **AWS:** create an S3 bucket, a Lambda from [`aws/lambda/lambda_function.py`](aws/lambda/lambda_function.py) with the environment variable `BUCKET_NAME`, and an HTTP API with a `POST /events` route to it. Give the Lambda role `s3:PutObject` on `arn:aws:s3:::<YOUR-BUCKET>/raw/*`.
+1. **AWS:** create an S3 bucket, a Lambda from [`aws/lambda/lambda_function.py`](aws/lambda/lambda_function.py) with the environment variable `BUCKET_NAME`, and an HTTP API with a `POST /events` route to it. Give the Lambda role the policy in [`aws/iam/`](aws/iam/), and apply the throttling and CORS settings in [`aws/api-gateway/`](aws/api-gateway/).
 2. **Catalog:** run a Glue crawler once on `s3://<YOUR-BUCKET>/raw/events/`, then apply [`analytics/00_partition_projection.sql`](analytics/00_partition_projection.sql) and the views `01`–`04` in order.
 3. **Game:** create `Rocket Boost/Assets/Resources/TelemetryConfig.txt` containing your endpoint URL (`https://<api-id>.execute-api.<region>.amazonaws.com/events`). This file is git-ignored, and without it the game only logs events to the Console.
 4. **Simulator (optional):**
@@ -151,3 +157,7 @@ The game collects **anonymous gameplay data only**: level attempts, crashes, fue
 
 - Game mechanics and assets based on a Unity course project (Udemy). The course's sound-effect files are not included in this repository.
 - Telemetry, AWS pipeline, data model, simulator and dashboard by **Omar Zbibo**.
+
+## License
+
+The code in this repository is released under the [MIT License](LICENSE). Assets that came from the Unity course (models, materials, audio) remain the property of their creators and are not covered by this license.
