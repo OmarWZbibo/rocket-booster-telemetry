@@ -47,9 +47,9 @@ The dashboard answers the questions a game studio would ask about its levels and
 
 ### Dashboard
 
-![Level Performance page](docs/images/dashboard-level-performance.png)
+![Level Performance page](docs/Images/dashboard-level-performance.png)
 
-![Players & Retention page](docs/images/dashboard-players-retention.png)
+![Players & Retention page](docs/Images/dashboard-players-retention.png)
 
 ### Findings
 
@@ -120,7 +120,7 @@ rocket-booster-telemetry/
 ├── simulator/         Synthetic player simulator (Python, standard library only)
 ├── analytics/         Athena partition projection + view definitions (SQL)
 ├── dashboard/         Power BI report (.pbix)
-└── docs/images/       Dashboard screenshots
+└── docs/Images/       Dashboard screenshots
 ```
 
 **Main Unity scripts:** `TelemetryManager.cs` (builds and sends events, survives scene reloads), `CollisionHandler.cs` (crash, completion and fuel events), `FuelTank.cs` (fuel system), `MainMenu.cs` (menu and data notice).
